@@ -1,6 +1,6 @@
 This is for 8\*8\*8 LED cube, using 8 + 1 shift registers, version 4.1
 
-vertex[z][x]
+vertex[z][x][y]
 
 function:
 +	show:	send data to registers once, need external loop to keep light
@@ -17,7 +17,7 @@ ver.2 added:
 +	change_vertex: change the status of the given LED (coordinate using (x, y, z))
 	
 ver.3 added:
-+	change_row:	change whole row of LEDs in positive x, y, or z direction, coordinate using (xy, yz)
++	change_row:	change whole row of LEDs in positive x, y, or z direction, coordinate using (x, y), (y, z), or (x, z)
 +	change_layer: change whole layer of LEDs, in positive direction, input should be [x]\<y>, [z]\<y>, [z]\<x>, which <> is byte
 
 ver.4 added:
