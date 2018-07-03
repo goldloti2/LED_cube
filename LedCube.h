@@ -1,5 +1,5 @@
 /*
-This is for 8*8*8 LED cube, using 8 + 1 shift registers, version 4
+This is for 8*8*8 LED cube, using 8 + 1 shift registers, version 4.1
 
 vertex[z][x]
 
@@ -21,10 +21,16 @@ ver.3 added:
 	change_row:	change whole row of LEDs in positive x, y, or z direction, coordinate using (xy, yz)
 	change_layer: change whole layer of LEDs, in positive direction, input should be [x]<y>, [z]<y>, [z]<x>, which <> is byte
 
-ver.4 added:(untested)
+ver.4 added:
 	reverse:	change all LEDs status
 	turn:	turn the cube 90 degrees, where sight is parrelled to the positive coordinate directions
 	swap:	swap the order in one of the 3 directions
+
+ver.4.1 added:
+	add some extra code for the new features below
+	
+	boolean clr_sts:	if no LED is lit, then it will be TRUE; otherwise will be FALSE
+	ifClear:	return clr_sts
 */
 
 #ifndef LED_CUBE_H
@@ -82,11 +88,13 @@ class LedCube
 		void reverse();
 		void turn(uint8_t dir);
 		void swap(uint8_t dir);
+		
+		bool ifClear();
 	
 	private:
 		uint8_t vertex[SIZE][SIZE];
 		uint8_t CS;
-		bool standBy;
+		bool clr_sts;
 };
 
 

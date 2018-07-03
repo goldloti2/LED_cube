@@ -7,6 +7,7 @@ LedCube::LedCube(uint8_t select)
 {
 	CS = select;
 	clear();
+	clr_sts = true;
 }
 
 LedCube::~LedCube()
@@ -42,6 +43,15 @@ void LedCube::show()
 void LedCube::update(uint8_t in[][SIZE])
 {
 	memcpy(vertex, in, SQUARE);
+	for(uint8_t i = 0; i < SQUARE; i++)
+	{
+		if(*(vertex + i))
+		{
+			clr_sts = true;
+			return;
+		}
+	}
+	clr_sts = false;
 }
 
 void LedCube::get_cube(uint8_t out[][SIZE])
@@ -52,11 +62,13 @@ void LedCube::get_cube(uint8_t out[][SIZE])
 void LedCube::light()
 {
 	memset(vertex, ~0x00, SQUARE);
+	clr_sts = false;
 }
 
 void LedCube::clear()
 {
 	memset(vertex, 0x00, SQUARE);
+	clr_sts = true;
 }
 
 void LedCube::shift(uint8_t dir)
@@ -160,11 +172,30 @@ void LedCube::move(uint8_t dir)
 			memset(vertex[SIZE - 1], 0x00, SIZE);
 			break;
 	}
+	for(uint8_t i = 0; i < SQUARE; i++)
+	{
+		if(*(vertex + i))
+		{
+			clr_sts = true;
+			return;
+		}
+	}
+	clr_sts = false;
 }
 
 void LedCube::change_vertex(uint8_t x, uint8_t y, uint8_t z)
 {
 	vertex[z][x] = vertex[z][x] ^ (0x01 << y);
+	
+	for(uint8_t i = 0; i < SQUARE; i++)
+	{
+		if(*(vertex + i))
+		{
+			clr_sts = true;
+			return;
+		}
+	}
+	clr_sts = false;
 }
 
 void LedCube::change_row(uint8_t data, uint8_t type, uint8_t xy, uint8_t yz)
@@ -197,6 +228,16 @@ void LedCube::change_row(uint8_t data, uint8_t type, uint8_t xy, uint8_t yz)
 				vertex[i][xy] = vertex[i][xy] & ~target;
 		}
 	}
+	
+	for(uint8_t i = 0; i < SQUARE; i++)
+	{
+		if(*(vertex + i))
+		{
+			clr_sts = true;
+			return;
+		}
+	}
+	clr_sts = false;
 }
 
 void LedCube::change_layer(uint8_t data[], uint8_t type, uint8_t layer)
@@ -225,6 +266,16 @@ void LedCube::change_layer(uint8_t data[], uint8_t type, uint8_t layer)
 			}
 		}
 	}
+	
+	for(uint8_t i = 0; i < SQUARE; i++)
+	{
+		if(*(vertex + i))
+		{
+			clr_sts = true;
+			return;
+		}
+	}
+	clr_sts = false;
 }
 
 void LedCube::reverse()
@@ -234,6 +285,8 @@ void LedCube::reverse()
 		for(uint8_t j = 0; j < SIZE; j++)
 			vertex[i][j] = ~vertex[i][j];
 	}
+	
+	clr_sts = !clr_sts;
 }
 
 void LedCube::turn(uint8_t dir)
@@ -381,4 +434,9 @@ void LedCube::swap(uint8_t dir)
 			memmove(vertex[SIZE - i - 1], temp, SIZE);
 		}
 	}
+}
+
+bool LedCube::ifClear()
+{
+	return clr_sts;
 }
