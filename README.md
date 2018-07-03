@@ -1,4 +1,4 @@
-This is for 8\*8\*8 LED cube, using 8 + 1 shift registers, version 2
+This is for 8\*8\*8 LED cube, using 8 + 1 shift registers, version 3
 
 vertex\[z\]\[x\]
 
@@ -15,9 +15,7 @@ ver.2 added:
 	
 +	get_cube: copy vertex[][] to the outside array
 +	change vertex: change the status of the given LED (coordinate using (x, y, z))
-
-
-
-
-
-also testing Markdown on github
+	
+ver.3 added:
++	change_row: change whole row of LEDs in positive x, y, or z direction, coordinate using (xy, yz)
++	change_layer: change whole layer of LEDs, in positive direction, input should be [x]<y>, [z]<y>, [z]<x>, which <> is byte
