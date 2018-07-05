@@ -1,4 +1,4 @@
-#include "LedCube.h"
+#include "../LedCube.h"
 /*
  * tested:
  *  show
